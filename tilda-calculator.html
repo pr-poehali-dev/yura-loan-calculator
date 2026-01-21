@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор займов</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0EA5E9 0%, #3B82F6 50%, #1E40AF 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+        }
+
+        .calculator-card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            padding: 32px;
+            width: 100%;
+            max-width: 448px;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .tariff-buttons {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .tariff-btn {
+            flex: 1;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 16px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f3f4f6;
+            color: #9ca3af;
+        }
+
+        .tariff-btn.active {
+            background: #0EA5E9;
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(14, 165, 233, 0.3);
+            transform: scale(1.05);
+        }
+
+        .slider-section {
+            background: linear-gradient(90deg, #f9fafb 0%, #f3f4f6 100%);
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .slider-label {
+            color: #4b5563;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .slider-value {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 28px;
+            color: #111827;
+        }
+
+        .slider-container {
+            margin-bottom: 8px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #e5e7eb;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #0EA5E9;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(14, 165, 233, 0.4);
+            transition: all 0.2s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #0EA5E9;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 8px rgba(14, 165, 233, 0.4);
+        }
+
+        .slider-marks {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .results-section {
+            padding-top: 16px;
+            border-top: 1px solid #e5e7eb;
+            margin-bottom: 24px;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .result-label {
+            color: #4b5563;
+            font-size: 14px;
+        }
+
+        .result-value {
+            font-weight: 700;
+            font-size: 20px;
+            color: #111827;
+            white-space: nowrap;
+        }
+
+        .submit-btn {
+            width: 100%;
+            height: 56px;
+            border: none;
+            border-radius: 16px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            color: white;
+            background: linear-gradient(90deg, #0EA5E9 0%, #3B82F6 100%);
+            cursor: pointer;
+            box-shadow: 0 10px 15px -3px rgba(14, 165, 233, 0.3);
+            transition: all 0.3s ease;
+            animation: pulseSoft 2s ease-in-out infinite;
+            margin-bottom: 16px;
+        }
+
+        @keyframes pulseSoft {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.95;
+                transform: scale(1.02);
+            }
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(90deg, #0284C7 0%, #2563EB 100%);
+            box-shadow: 0 20px 25px -5px rgba(14, 165, 233, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: scale(0.95);
+        }
+
+        .timer-section {
+            text-align: center;
+            color: #4b5563;
+            font-size: 16px;
+        }
+
+        .timer-value {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 22px;
+            color: #0EA5E9;
+        }
+
+        @media (max-width: 640px) {
+            .calculator-card {
+                padding: 16px;
+                border-radius: 20px;
+            }
+
+            .tariff-buttons {
+                gap: 8px;
+                margin-bottom: 24px;
+            }
+
+            .tariff-btn {
+                padding: 10px 12px;
+                font-size: 14px;
+                border-radius: 12px;
+            }
+
+            .slider-section {
+                padding: 16px;
+                border-radius: 16px;
+                margin-bottom: 20px;
+            }
+
+            .slider-header {
+                margin-bottom: 12px;
+            }
+
+            .slider-label {
+                font-size: 14px;
+            }
+
+            .slider-value {
+                font-size: 22px;
+            }
+
+            .slider-marks {
+                font-size: 10px;
+            }
+
+            .result-label {
+                font-size: 13px;
+            }
+
+            .result-value {
+                font-size: 16px;
+            }
+
+            .submit-btn {
+                height: 52px;
+                font-size: 16px;
+                border-radius: 12px;
+            }
+
+            .timer-section {
+                font-size: 14px;
+            }
+
+            .timer-value {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator-card">
+        <div class="tariff-buttons">
+            <button class="tariff-btn active" data-tariff="basic">До 30 000 ₽</button>
+            <button class="tariff-btn" data-tariff="premium">До 49 000 ₽</button>
+        </div>
+
+        <div class="slider-section">
+            <div class="slider-header">
+                <span class="slider-label">Сумма</span>
+                <span class="slider-value" id="amountValue">9 000 ₽</span>
+            </div>
+            <div class="slider-container">
+                <input type="range" id="amountSlider" min="3000" max="30000" step="1000" value="9000">
+            </div>
+            <div class="slider-marks">
+                <span id="minAmount">3 000 ₽</span>
+                <span id="midAmount">15 000 ₽</span>
+                <span id="maxAmount">30 000 ₽</span>
+            </div>
+        </div>
+
+        <div class="slider-section">
+            <div class="slider-header">
+                <span class="slider-label">Срок</span>
+                <span class="slider-value" id="daysValue">30 дней</span>
+            </div>
+            <div class="slider-container">
+                <input type="range" id="daysSlider" min="7" max="98" step="1" value="30">
+            </div>
+            <div class="slider-marks">
+                <span>7 дней</span>
+                <span>49 дней</span>
+                <span>98 дней</span>
+            </div>
+        </div>
+
+        <div class="results-section">
+            <div class="result-row">
+                <span class="result-label">При возврате до <span id="deadline">22 января</span>:</span>
+                <span class="result-value" id="earlyReturn">9 000,00 ₽</span>
+            </div>
+            <div class="result-row">
+                <span class="result-label">При возврате в срок:</span>
+                <span class="result-value" id="fullReturn">11 700,00 ₽</span>
+            </div>
+        </div>
+
+        <button class="submit-btn">Получить деньги</button>
+
+        <div class="timer-section">
+            Деньги у вас уже в <span class="timer-value" id="timeLeft">17:49</span>
+        </div>
+    </div>
+
+    <script>
+        let currentTariff = 'basic';
+        let amount = 9000;
+        let days = 30;
+        const interestRate = 0.01;
+
+        const amountSlider = document.getElementById('amountSlider');
+        const daysSlider = document.getElementById('daysSlider');
+        const amountValue = document.getElementById('amountValue');
+        const daysValue = document.getElementById('daysValue');
+        const earlyReturn = document.getElementById('earlyReturn');
+        const fullReturn = document.getElementById('fullReturn');
+        const deadline = document.getElementById('deadline');
+        const timeLeft = document.getElementById('timeLeft');
+        const tariffBtns = document.querySelectorAll('.tariff-btn');
+
+        function formatNumber(num) {
+            return num.toLocaleString('ru-RU');
+        }
+
+        function formatMoney(num) {
+            return num.toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function getDaysWord(num) {
+            if (num === 1) return 'день';
+            if (num >= 2 && num <= 4) return 'дня';
+            return 'дней';
+        }
+
+        function calculateDeadline() {
+            const date = new Date();
+            date.setDate(date.getDate() + 1);
+            const day = date.getDate();
+            const months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+            return `${day} ${months[date.getMonth()]}`;
+        }
+
+        function updateCalculations() {
+            const returnAmount = amount + (amount * interestRate * days);
+            
+            amountValue.textContent = `${formatNumber(amount)} ₽`;
+            daysValue.textContent = `${days} ${getDaysWord(days)}`;
+            earlyReturn.textContent = `${formatMoney(amount)} ₽`;
+            fullReturn.textContent = `${formatMoney(returnAmount)} ₽`;
+            deadline.textContent = calculateDeadline();
+        }
+
+        function updateTimer() {
+            const now = new Date();
+            const target = new Date();
+            target.setHours(17, 49, 0, 0);
+            
+            if (now > target) {
+                target.setDate(target.getDate() + 1);
+            }
+            
+            const diff = target - now;
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            
+            timeLeft.textContent = `${hours}:${minutes.toString().padStart(2, '0')}`;
+        }
+
+        tariffBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                tariffBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                currentTariff = this.dataset.tariff;
+                const maxAmount = currentTariff === 'basic' ? 30000 : 49000;
+                
+                amountSlider.max = maxAmount;
+                if (amount > maxAmount) {
+                    amount = maxAmount;
+                    amountSlider.value = maxAmount;
+                }
+                
+                document.getElementById('maxAmount').textContent = `${formatNumber(maxAmount)} ₽`;
+                document.getElementById('midAmount').textContent = `${formatNumber(maxAmount / 2)} ₽`;
+                
+                updateCalculations();
+            });
+        });
+
+        amountSlider.addEventListener('input', function() {
+            amount = parseInt(this.value);
+            updateCalculations();
+        });
+
+        daysSlider.addEventListener('input', function() {
+            days = parseInt(this.value);
+            updateCalculations();
+        });
+
+        updateCalculations();
+        updateTimer();
+        setInterval(updateTimer, 1000);
+    </script>
+</body>
+</html>
