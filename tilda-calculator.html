@@ -99,6 +99,12 @@
             font-weight: 700;
             font-size: 28px;
             color: #111827;
+            transition: all 0.3s ease;
+        }
+
+        .slider-value.updating {
+            transform: scale(1.1);
+            color: #0EA5E9;
         }
 
         .slider-container {
@@ -164,6 +170,18 @@
         .result-label {
             color: #4b5563;
             font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        #deadline {
+            font-weight: 600;
+            color: #0EA5E9;
+            transition: all 0.3s ease;
+        }
+
+        #deadline.updating {
+            transform: scale(1.1);
+            display: inline-block;
         }
 
         .result-value {
@@ -171,6 +189,12 @@
             font-size: 20px;
             color: #111827;
             white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        .result-value.updating {
+            transform: scale(1.05);
+            color: #0EA5E9;
         }
 
         .submit-btn {
@@ -373,10 +397,17 @@
 
         function calculateDeadline() {
             const date = new Date();
-            date.setDate(date.getDate() + 1);
+            date.setDate(date.getDate() + days);
             const day = date.getDate();
             const months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
             return `${day} ${months[date.getMonth()]}`;
+        }
+
+        function animateElement(element) {
+            element.classList.add('updating');
+            setTimeout(() => {
+                element.classList.remove('updating');
+            }, 300);
         }
 
         function updateCalculations() {
@@ -387,6 +418,12 @@
             earlyReturn.textContent = `${formatMoney(amount)} ₽`;
             fullReturn.textContent = `${formatMoney(returnAmount)} ₽`;
             deadline.textContent = calculateDeadline();
+            
+            animateElement(amountValue);
+            animateElement(daysValue);
+            animateElement(earlyReturn);
+            animateElement(fullReturn);
+            animateElement(deadline);
         }
 
         function updateTimer() {

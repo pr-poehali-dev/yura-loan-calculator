@@ -40,7 +40,7 @@ export default function Index() {
 
   const calculateDeadline = () => {
     const deadline = new Date();
-    deadline.setDate(deadline.getDate() + 1);
+    deadline.setDate(deadline.getDate() + days);
     const day = deadline.getDate();
     const months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
     const month = months[deadline.getMonth()];
@@ -77,7 +77,7 @@ export default function Index() {
           <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl sm:rounded-3xl p-4 sm:p-6">
             <div className="flex justify-between items-center mb-3 sm:mb-4">
               <span className="text-gray-600 text-base sm:text-lg font-medium">Сумма</span>
-              <span className="text-2xl sm:text-3xl font-heading font-bold text-gray-900">
+              <span className="text-2xl sm:text-3xl font-heading font-bold text-gray-900 transition-all duration-300">
                 {amount.toLocaleString('ru-RU')} ₽
               </span>
             </div>
@@ -99,7 +99,7 @@ export default function Index() {
           <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl sm:rounded-3xl p-4 sm:p-6">
             <div className="flex justify-between items-center mb-3 sm:mb-4">
               <span className="text-gray-600 text-base sm:text-lg font-medium">Срок</span>
-              <span className="text-2xl sm:text-3xl font-heading font-bold text-gray-900">
+              <span className="text-2xl sm:text-3xl font-heading font-bold text-gray-900 transition-all duration-300">
                 {days} {days === 1 ? 'день' : days < 5 ? 'дня' : 'дней'}
               </span>
             </div>
@@ -120,14 +120,14 @@ export default function Index() {
 
           <div className="space-y-2 sm:space-y-3 pt-3 sm:pt-4 border-t border-gray-200">
             <div className="flex justify-between items-center gap-2">
-              <span className="text-gray-600 text-sm sm:text-base">При возврате до {calculateDeadline()}:</span>
-              <span className="text-lg sm:text-2xl font-bold text-gray-900 whitespace-nowrap">
+              <span className="text-gray-600 text-sm sm:text-base">При возврате до <span className="font-semibold text-[#0EA5E9] transition-all duration-300">{calculateDeadline()}</span>:</span>
+              <span className="text-lg sm:text-2xl font-bold text-gray-900 whitespace-nowrap transition-all duration-300">
                 {earlyReturnAmount.toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₽
               </span>
             </div>
             <div className="flex justify-between items-center gap-2">
               <span className="text-gray-600 text-sm sm:text-base">При возврате в срок:</span>
-              <span className="text-lg sm:text-2xl font-bold text-gray-900 whitespace-nowrap">
+              <span className="text-lg sm:text-2xl font-bold text-gray-900 whitespace-nowrap transition-all duration-300">
                 {returnAmount.toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₽
               </span>
             </div>
